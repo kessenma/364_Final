@@ -180,9 +180,10 @@ class DeleteButtonForm(FlaskForm):
 
 def get_gifs_from_giphy(search):
     url = "https://api.giphy.com/v1/gifs/search"
-    params = {'api_key': api_key, 'q': search_string, 'limit': None}
+    params = {'api_key': api_key, 'q': search, 'limit': None}
     search_results = json.loads(requests.get(url=url, params=params).text)
     return search_results['data']
+    data = Song.search
 
 def get_gif_by_id(id):
     """Should return gif object or None"""
@@ -200,7 +201,7 @@ def get_or_create_gif(title, url):
         return gif
 
 def get_or_create_search_term(term):
-    search_term = SearchTerm.query.filter_by(term=term).first()
+    search_term = get_gifs_from_giphy.filter_by(term=term).first()
 
     if search_term:
         print("Term exists!")
@@ -264,7 +265,7 @@ def index():
     num_songs = Song.query.all()
     if form.validate_on_submit():
         search = form.search.data
-        results = get_or_create_search_term(search)
+        results = get_or_create_search_term(data)
         if db.session.query(Song).filter_by(title=form.song.data, ).first():
             flash("You've already saved a song with that title!") 
         get_or_create_song(db.session, form.song.data, form.artist.data, form.search.data, form.rating.data)
@@ -286,14 +287,15 @@ def all_songs():
     return render_template('all_songs.html',all_songs=all_songs)
 
 @app.route('/all_feels', methods=["GET", "POST"])
-def all_feels(search):
+def all_feels():
+    form = SongForm()
     search = form.search.data
-    gifs = get_gifs_from_giphy()
+    gifs = get_gifs_from_giphy(search)
     feels = Gif.query.all()
     for f in gifs:
         song = Song.query.filter_by(id=f.song_id).first()
         feels = Gifs.append((f.title, f.embedURL))
-    return render_template('all_feels.html',all_feels=all_feels)
+    return render_template('all_feels.html',all_feels=all_feels, form=form)
 
 def main():
     writer(all_fee(intermediate_count))
