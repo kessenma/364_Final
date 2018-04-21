@@ -1,0 +1,20 @@
+Briefly describe what my application will do. 
+
+My application will create a list of songs that a user wants to listen to. It will connect to Spotify's API to obtain artists data, song data, and potentially cover images (If I can figure that out). At the moment I am planning on using Google to authorize logging in, but I may switch over to Spotify logins, since that seems more applicable. 
+
+Below are the type of data SAVED in the application. 
+
+Tables + 
+---------------------------------------------
+1.) Artists 
+		id 		name 
+---------------------------------------------
+2.) Songs
+		id 		title 	artist_id		genre
+---------------------------------------------
+3.) To_Listen_to
+		song_id		user_id
+---------------------------------------------
+4.) Users
+		id 		email 	name 	avatar 		tokens		create_at
+
