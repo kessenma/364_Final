@@ -178,7 +178,7 @@ class DeleteButtonForm(FlaskForm):
 ##Get or create functions repurposed from https://github.com/alonmelon25/HW4_364 
 ## __author__ = "Aaron Cheng (alonmelon25)"
 
-def get_gifs_from_giphy(search_string):
+def get_gifs_from_giphy(search):
     url = "https://api.giphy.com/v1/gifs/search"
     params = {'api_key': api_key, 'q': search_string, 'limit': None}
     search_results = json.loads(requests.get(url=url, params=params).text)
@@ -278,7 +278,7 @@ def index():
 @app.route('/all_songs', methods=["GET", "POST"])
 def all_songs():
     all_songs = [] # To be tuple list of title, searchs
-    form = DeleteButtonForm()
+    #form = DeleteButtonForm()
     songs = Song.query.all()
     for s in songs:
         artist = Artist.query.filter_by(id=s.artist_id).first()
@@ -286,9 +286,17 @@ def all_songs():
     return render_template('all_songs.html',all_songs=all_songs)
 
 @app.route('/all_feels', methods=["GET", "POST"])
-def all_feels():
-    gifs = Gif.query.all()
-    return render_template('all_feels.html', all_feels=gifs)
+def all_feels(search):
+    search = form.search.data
+    gifs = get_gifs_from_giphy()
+    feels = Gif.query.all()
+    for f in gifs:
+        song = Song.query.filter_by(id=f.song_id).first()
+        feels = Gifs.append((f.title, f.embedURL))
+    return render_template('all_feels.html',all_feels=all_feels)
+
+def main():
+    writer(all_fee(intermediate_count))
 
 @app.route('/delete/<song>',methods=["GET","POST"])
 def delete(song):
@@ -313,7 +321,7 @@ def updateSong(song):
     
 
 
-
+#Failed attempts :,-(
     # all_feels = [] # To be tuple list of title, searchs
     # feels = Gif.query.all()
     # for f in feels:
@@ -326,6 +334,7 @@ def updateSong(song):
 #################################
 ##### Authorization Routes ######
 #################################
+#All below is replicated form lecture. 
 
 @app.route('/login')
 def login():

@@ -6,9 +6,9 @@
 
 {% block main_content %}
 <ul>
-{% for sg in all_feels %}
+{% for search in all_feels %}
 <li>
-  <h4>{{ sg.title }}</h4>
+  <h4>{{ search.title }}</h4>
   </br>
   <iframe src={{ sg.embedURL }} width="144" height="81" frameBorder="0" ></iframe>
 </li>
