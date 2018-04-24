@@ -1,10 +1,12 @@
 
 ***Kyle Essenmacher SI 364 Final***
+
  University of Michigan School of Information SI364 
  Professor: Jackie Cohen (https://github.com/aerenchyma)
  Graduate Student Instructors: Mauli (https://github.com/pandeymauli) Sonakshi Watel (https://github.com/Watel) 
 
 **Application description**
+
 In order to access the application users must login using their Google Accounts. Once they are logged in they will be able to input a song, how it makes them feel, and the rating of the song. The application then uses the user-entered data to match how they feel about songs to giphs on giphy's API. More information on their API can be found here: https://developers.giphy.com/ 
 
 **Steps to run the application** 
