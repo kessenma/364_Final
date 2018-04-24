@@ -2,7 +2,9 @@
 ***Kyle Essenmacher SI 364 Final***
 
  University of Michigan School of Information SI364 
+
  Professor: Jackie Cohen (https://github.com/aerenchyma)
+
  Graduate Student Instructors: Mauli (https://github.com/pandeymauli) Sonakshi Watel (https://github.com/Watel) 
 
 **Application description**
@@ -33,11 +35,15 @@ In order to access the application users must login using their Google Accounts.
 
 **Available routes in the application**
 
-/login ---> render_template('login.html')
-/logout ---> render_template('logout.html')
-/ ---> renders render_template('index.html')
-/all_songs ---> render_template('all_songs.html')
-/all_feels ---> render_template('all_gifs.html') 
+http://localhost:5000/login ---> render_template('login.html')
+
+http://localhost:5000/logout ---> render_template('logout.html')
+
+http://localhost:5000/ ---> renders render_template('index.html')
+
+http://localhost:5000/all_songs ---> render_template('all_songs.html')
+
+http://localhost:5000/all_feels ---> render_template('all_gifs.html') 
 
 All of the routes are in the navigation bar and the user does not have to enter any in. 
 
