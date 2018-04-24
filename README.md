@@ -1,16 +1,59 @@
-This application asks users what songs that they like to listen to and how it makes them feel. Users also can rate the songs, add artists to the songs 
 
-- [ ] Create a `README.md` file for your app that includes the full list of requirements from this page. The ones you have completed should be bolded or checked off. (You bold things in Markdown by using two asterisks, like this: `**This text would be bold** and this text would not be`)
+***Kyle Essenmacher SI 364 Final***
+ University of Michigan School of Information SI364 
+ Professor: Jackie Cohen (https://github.com/aerenchyma)
+ Graduate Student Instructors: Mauli (https://github.com/pandeymauli) Sonakshi Watel (https://github.com/Watel) 
+
+**Application description**
+In order to access the application users must login using their Google Accounts. Once they are logged in they will be able to input a song, how it makes them feel, and the rating of the song. The application then uses the user-entered data to match how they feel about songs to giphs on giphy's API. More information on their API can be found here: https://developers.giphy.com/ 
+
+**Steps to run the application** 
+
+1.) *obtain an API key from Giphy ( https://developers.giphy.com/ ) and plug it into the "giphy_api_key.py" file*
+
+2.) In termninal navigate to the 'kessen364final'
+
+3.) Once you are in the kessen364final file type in the following command:
+	pip install -r requirements.txt
+
+4.) in the same terminal type 
+	createdb kessen364final
+
+-Note downloading databeaver (Windows) or Postico (MacOS) will probably make your life a lot easier and I highly recomend it. 
+
+5.) in terminal type:
+	python SI364final.py runserver
+
+6.) in a browser go the address:
+	http://localhost:5000/
+
+7.) have fun!
+
+**Available routes in the application**
+
+/login ---> render_template('login.html')
+/logout ---> render_template('logout.html')
+/ ---> renders render_template('index.html')
+/all_songs ---> render_template('all_songs.html')
+/all_feels ---> render_template('all_gifs.html') 
+
+All of the routes are in the navigation bar and the user does not have to enter any in. 
+
+
+---------------------------------------------------------------------------------------------------------------
+**Exam Benchmarks**
+
+- [ x] Create a `README.md` file for your app that includes the full list of requirements from this page. The ones you have completed should be bolded or checked off. (You bold things in Markdown by using two asterisks, like this: `**This text would be bold** and this text would not be`)
 
 - [ x] The `README.md` file should use markdown formatting and be clear / easy to read.
 
-- [ ] The `README.md` file should include a 1-paragraph (brief OK) description of what your application does
+- [ x] The `README.md` file should include a 1-paragraph (brief OK) description of what your application does
 
-- [ ] The `README.md` file should include a detailed explanation of how a user can user the running application (e.g. log in and see what, be able to save what, enter what, search for what... Give us examples of data to enter if it's not obviously stated in the app UI!)
+- [ x] The `README.md` file should include a detailed explanation of how a user can user the running application (e.g. log in and see what, be able to save what, enter what, search for what... Give us examples of data to enter if it's not obviously stated in the app UI!)
 
-- [ ] The `README.md` file should include a list of every module that must be installed with `pip` if it's something you installed that we didn't use in a class session. If there are none, you should note that there are no additional modules to install.
+- [ x] The `README.md` file should include a list of every module that must be installed with `pip` if it's something you installed that we didn't use in a class session. If there are none, you should note that there are no additional modules to install.
 
-- [ ] The `README.md` file should include a list of all of the routes that exist in the app and the names of the templates each one should render OR, if a route does not render a template, what it returns (e.g. `/form` -> `form.html`, like [the list we provided in the instructions for HW2](https://www.dropbox.com/s/3a83ykoz79tqn8r/Screenshot%202018-02-15%2013.27.52.png?dl=0) and like you had to on the midterm, or `/delete -> deletes a song and redirects to index page`, etc).
+- [ x] The `README.md` file should include a list of all of the routes that exist in the app and the names of the templates each one should render OR, if a route does not render a template, what it returns (e.g. `/form` -> `form.html`, like [the list we provided in the instructions for HW2](https://www.dropbox.com/s/3a83ykoz79tqn8r/Screenshot%202018-02-15%2013.27.52.png?dl=0) and like you had to on the midterm, or `/delete -> deletes a song and redirects to index page`, etc).
 
 ### **Code Requirements**
 ***Note that many of these requirements of things your application must DO or must INCLUDE go together! Note also that*** ***you should read all of the requirements before making your application plan******.***
@@ -19,7 +62,7 @@ This application asks users what songs that they like to listen to and how it ma
 
 - [ x] A user should be able to load `http://localhost:5000` and see the first page they ought to see on the application.
 
-- [ ] Include navigation in `base.html` with links (using `a href` tags) that lead to every other page in the application that a user should be able to click on. (e.g. in the lecture examples from the Feb 9 lecture, [like this](https://www.dropbox.com/s/hjcls4cfdkqwy84/Screenshot%202018-02-15%2013.26.32.png?dl=0) )
+- [ x] Include navigation in `base.html` with links (using `a href` tags) that lead to every other page in the application that a user should be able to click on. (e.g. in the lecture examples from the Feb 9 lecture, [like this](https://www.dropbox.com/s/hjcls4cfdkqwy84/Screenshot%202018-02-15%2013.26.32.png?dl=0) )
 
 - [ x] Ensure that all templates in the application inherit (using template inheritance, with `extends`) from `base.html` and include at least one additional `block`.
 
@@ -37,7 +80,7 @@ This application asks users what songs that they like to listen to and how it ma
 
 - [ x] Successfully query data from each of your models (so query at least one column, or all data, from every database table you have a model for) and use it to effect in the application (e.g. won't count if you make a query that has no effect on what you see, what is saved, or anything that happens in the app).
 
-- [ ] At least one query of data using an `.all()` method and send the results of that query to a template.
+- [ x] At least one query of data using an `.all()` method and send the results of that query to a template.
 
 - [ x] At least one query of data using a `.filter_by(...` and show the results of that query directly (e.g. by sending the results to a template) or indirectly (e.g. using the results of the query to make a request to an API or save other data to a table).
 
@@ -73,7 +116,7 @@ This application asks users what songs that they like to listen to and how it ma
 
 - [ x] Include at least two uses of `url_for`. (HINT: Likely you'll need to use this several times, really.)
 
-- [ ] Have at least 5 view functions that are not included with the code we have provided. (But you may have more! *Make sure you include ALL view functions in the app in the documentation and navigation as instructed above.*)
+- [ x] Have at least 5 view functions that are not included with the code we have provided. (But you may have more! *Make sure you include ALL view functions in the app in the documentation and navigation as instructed above.*)
 
 
 ## Additional Requirements for additional points -- an app with extra functionality!

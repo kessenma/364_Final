@@ -6,9 +6,9 @@
 
 {% block main_content %}
 <ul>
-{% for search in all_feels %}
+{% for sg in all_gifs %}
 <li>
-  <h4>{{ search.title }}</h4>
+  <h4>{{ sg.title }}</h4>
   </br>
   <iframe src={{ sg.embedURL }} width="144" height="81" frameBorder="0" ></iframe>
 </li>
@@ -16,8 +16,8 @@
 {% endfor %}
 </ul>
 
-{% if not all_feels %}
-There are no saved feelings to show.
+{% if not all_gifs %}
+There are no saved gifs to show.
 {% endif %}
 
 <div>

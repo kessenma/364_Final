@@ -126,7 +126,7 @@ class SearchTerm(db.Model):
 
 
 #################################
-########## Google Stuff #########
+##### Google Authorization #####
 #################################
 
 @login_manager.user_loader
@@ -180,10 +180,9 @@ class DeleteButtonForm(FlaskForm):
 
 def get_gifs_from_giphy(search):
     url = "https://api.giphy.com/v1/gifs/search"
-    params = {'api_key': api_key, 'q': search, 'limit': None}
+    params = {'api_key': api_key, 'q': search, 'limit': 1}
     search_results = json.loads(requests.get(url=url, params=params).text)
     return search_results['data']
-    data = Song.search
 
 def get_gif_by_id(id):
     """Should return gif object or None"""
@@ -191,31 +190,54 @@ def get_gif_by_id(id):
     return g
 
 def get_or_create_gif(title, url):
-    gif = Gif.query.filter_by(title=title).first()
-    if gif:
-        return gif
+    inst = Gif.query.filter_by(title=title).first()
+    if inst:
+        return inst
     else:
         gif = Gif(title=title,embedURL = url)
         db.session.add(gif)
         db.session.commit()
         return gif
 
+
+
 def get_or_create_search_term(term):
-    search_term = get_gifs_from_giphy.filter_by(term=term).first()
+    """Always returns a SearchTerm instance"""
+    inst = SearchTerm.query.filter_by(term=term).first()
+    if not inst:
+        inst = SearchTerm(term=term)
+    data = get_gifs_from_giphy(term)
+    for gif in data:
+        title = gif['title']
+        url = gif['embed_url']
+        gif = get_or_create_gif(title,url)
+        inst.gifs.append(gif)
+    db.session.add(inst)
+    db.session.commit()
+    return inst
+
+
+
+"""
+#Look at this function next
+def get_or_create_search_term(term):
+    search_term = Song.query.filter_by(term=term).first()
 
     if search_term:
-        print("Term exists!")
+        print("Feeling exists!")
         return search_term
     else:
-        print("Term added!")
+        print("Feeling added!")
         search_term = SearchTerm(term=term)
-        gif_list = get_gifs_from_giphy(search_term)
+        gif_list = get_gifs_from_giphy(term)
         for g in gif_list:
-            g = get_or_create_gif(g['title'], g['embed_url'])
-            search_term.gifs.append(g)
+            new_gif = get_or_create_gif(g['title'], g['embed_url']) #This gives back a gif class. 
+            search_term.new_gif.append(g)
         db.session.add(search_term)
         db.session.commit()
-        return search_term
+        return gif_list
+        """
+
 
 def get_or_create_artist(db_session, artist_name):
     artist = db.session.query(Artist).filter_by(name=artist_name).first()
@@ -265,7 +287,8 @@ def index():
     num_songs = Song.query.all()
     if form.validate_on_submit():
         search = form.search.data
-        results = get_or_create_search_term(data)
+        results = get_or_create_search_term(search)
+        print(results)
         if db.session.query(Song).filter_by(title=form.song.data, ).first():
             flash("You've already saved a song with that title!") 
         get_or_create_song(db.session, form.song.data, form.artist.data, form.search.data, form.rating.data)
@@ -278,27 +301,14 @@ def index():
 ## __author__ = "Jackie Cohen (jczetta)"
 @app.route('/all_songs', methods=["GET", "POST"])
 def all_songs():
-    all_songs = [] # To be tuple list of title, searchs
-    #form = DeleteButtonForm()
     songs = Song.query.all()
-    for s in songs:
-        artist = Artist.query.filter_by(id=s.artist_id).first()
-        all_songs.append((s.title,artist.name, s.search))
-    return render_template('all_songs.html',all_songs=all_songs)
+    return render_template('all_songs.html',all_songs=songs)
 
 @app.route('/all_feels', methods=["GET", "POST"])
 def all_feels():
-    form = SongForm()
-    search = form.search.data
-    gifs = get_gifs_from_giphy(search)
-    feels = Gif.query.all()
-    for f in gifs:
-        song = Song.query.filter_by(id=f.song_id).first()
-        feels = Gifs.append((f.title, f.embedURL))
-    return render_template('all_feels.html',all_feels=all_feels, form=form)
+    gifs = Gif.query.all()
+    return render_template('all_feels.html',all_gifs=gifs)
 
-def main():
-    writer(all_fee(intermediate_count))
 
 @app.route('/delete/<song>',methods=["GET","POST"])
 def delete(song):
@@ -321,17 +331,6 @@ def updateSong(song):
         return redirect(url_for('index'))
     return render_template('update_info.html',song_name = song, form = form)
     
-
-
-#Failed attempts :,-(
-    # all_feels = [] # To be tuple list of title, searchs
-    # feels = Gif.query.all()
-    # for f in feels:
-    #     #song = Song.query.filter_by(id=f.song_id).first()
-    #     all_feels.append((f.title, f.embedURL))
-    # return render_template('all_feels.html',all_feels=all_feels)
-
-
 
 #################################
 ##### Authorization Routes ######
